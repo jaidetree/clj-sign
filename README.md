@@ -8,19 +8,19 @@ A simple library for signing data and verifying signatures with an openssl RSA k
 Leiningen/Boot
 
 ```
-[clj-sign "0.1.0-SNAPSHOT"]
+[clj-sign "0.1.1"]
 ```
 
 Clojure CLI/deps.edn
 
 ```
-clj-sign {:mvn/version "0.1.0-SNAPSHOT"}
+clj-sign {:mvn/version "0.1.1"}
 ```
 
 Gradle
 
 ```
-compile 'clj-sign:clj-sign:0.1.0-SNAPSHOT'
+compile 'clj-sign:clj-sign:0.1.1'
 ```
 
 Maven
@@ -29,7 +29,7 @@ Maven
 <dependency>
   <groupId>clj-sign</groupId>
   <artifactId>clj-sign</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.1</version>
 </dependency>
 ```
 
