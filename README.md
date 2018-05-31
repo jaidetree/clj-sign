@@ -56,6 +56,11 @@ openssl rsa -in resources/deploy.secret.pem -pubout -out resources/deploy.secret
 
 Should any bugs or feature requests come up please report them in [https://github.com/jayzawrotny/clj-sign/issues] repo.
 
+
+## Credits
+
+Thanks to [Horace Williams' RSA Cryptography in Clojure Article](https://worace.works/2016/06/05/rsa-cryptography-in-clojure/) for providing the means to generate a signature.
+
 ## License
 
 Copyright © 2018 Jay
