@@ -1,4 +1,4 @@
-(defproject clj-sign "0.1.1-SNAPSHOT"
+(defproject clj-sign "0.1.1"
   :description "A clojure library for signing and verifying openssl signatures."
   :url "https://github.com/jayzawrotny/clj-sign"
   :license {:name "BSD-3-Clause"
