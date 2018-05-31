@@ -8,6 +8,13 @@ Download from http://example.com/FIXME.
 
 ## Usage
 
+Generate rsa private and public key pair:
+
+```
+openssl genrsa -out resources/deploy.secret.pem 1024
+openssl rsa -in resources/deploy.secret.pem -pubout -out resources/deploy.secret.pub
+```
+
 FIXME: explanation
 
     $ java -jar clj-sign-0.1.0-standalone.jar [args]

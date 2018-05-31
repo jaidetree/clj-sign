@@ -1,14 +1,8 @@
 (ns clj-sign.core
-  (:gen-class))
-
-(ns deploy.client.core
-  (:require [clj-http.client :as client]
-            [clojure.string :refer [join]]
-            [clojure.walk :refer [keywordize-keys]]
-            [pem-reader.core :as pem]
-            [clojure.pprint :refer [pprint]])
+  (:require [pem-reader.core :as pem])
   (:import [java.security SecureRandom Signature]
-           [java.util Base64]))
+           [java.util Base64])
+  (:gen-class))
 
 (defn encode64
   "Takes a bytes stream and returns a base64 encoded string."
@@ -39,61 +33,27 @@
        (pem/public-key)))
 
 (defn sign
-  "RSA private key signing of a hash. Takes hash as string and private key.
+  "RSA private key signing of a message.
+  Takes a message string and private key filename string.
   Returns signature string."
-  [hash private-key-file]
+  [message private-key-file]
   (encode64
-    (let [msg-data (.getBytes hash)
+    (let [msg-data (.getBytes message)
           sig (doto (Signature/getInstance "SHA256withRSA")
                     (.initSign (get-private-key! private-key-file) (SecureRandom.))
                     (.update msg-data))]
       (.sign sig))))
 
-(defn verify [encoded-sig hash public-key-filename]
+(defn verify
   "RSA public key verification of a Base64-encoded signature and an
-   assumed source hash.
+  assumed source message.
+  Takes an encoded signature string, a message string, and a public key
+  filename string.
   Returns true/false if signature is valid."
-  (let [msg-data (.getBytes hash)
+  [encoded-sig message public-key-filename]
+  (let [msg-data (.getBytes message)
         signature (decode64 encoded-sig)
         sig (doto (java.security.Signature/getInstance "SHA256withRSA")
               (.initVerify (get-public-key! public-key-filename))
               (.update msg-data))]
     (.verify sig signature)))
-
-(defn now
-  "Get the current time in unix seconds. Used to set the timeout.
-  Returns a number."
-  []
-  (quot (System/currentTimeMillis) 1000))
-
-(defn create-hash
-  "Create a hash-string to sign with a private key
-  Takes a repo string, branch, and timeout.
-  Returns a string."
-  [repo branch timeout]
-  (join "|" [repo branch timeout]))
-
-(defn create-post-body
-  "Create the post body params to send to deploy server.
-  Takes a map dest-dir, src-dir, branch, repo, private-key.
-  Returns a hash-map."
-  [{:keys [dest-dir src-dir branch repo private-key]}]
-  (let [timeout (+ (now) 5)
-        hash (create-hash repo branch timeout)]
-    {:dest_dir dest-dir
-     :src_dir src-dir
-     :branch branch
-     :repo repo
-     :timeout timeout
-     :hash hash
-     :signature (sign hash private-key)}))
-
-(defn -main
-  "Testing function to test direct calls.
-  Takes a server-url string a private-key filepath string and additional
-  deploy params.
-  Returns the clj-http request body."
-  [server-url private-key & {:as args}]
-  (->> args
-       keywordize-keys
-       (deploy! server-url private-key)))
