@@ -2,7 +2,7 @@
 
 # clj-sign
 
-FIXME: description
+A simple library for signing data and verifying signatures with an openssl RSA keypair.
 
 ## Installation
 Leiningen/Boot
