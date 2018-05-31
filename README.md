@@ -1,43 +1,63 @@
+[![Clojars Project](https://img.shields.io/clojars/v/clj-sign.svg)](https://clojars.org/clj-sign)
+
 # clj-sign
 
 FIXME: description
 
 ## Installation
+Leiningen/Boot
 
-Download from http://example.com/FIXME.
+```
+[clj-sign "0.1.0-SNAPSHOT"]
+```
+
+Clojure CLI/deps.edn
+
+```
+clj-sign {:mvn/version "0.1.0-SNAPSHOT"}
+```
+
+Gradle
+
+```
+compile 'clj-sign:clj-sign:0.1.0-SNAPSHOT'
+```
+
+Maven
+
+```
+<dependency>
+  <groupId>clj-sign</groupId>
+  <artifactId>clj-sign</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+</dependency>
+```
 
 ## Usage
 
-Generate rsa private and public key pair:
+In Clojure:
+
+```clojure
+(ns my-app
+  (:require [clj-sign.core :refer [sign verify]]))
+
+(sign "my-data" "path/to/private_key.pem")
+(verify signature "my-data" "path/to/public_key.pem")
+```
+
+Generate RSA private and public key pair:
 
 ```
 openssl genrsa -out resources/deploy.secret.pem 1024
 openssl rsa -in resources/deploy.secret.pem -pubout -out resources/deploy.secret.pub
 ```
 
-FIXME: explanation
-
-    $ java -jar clj-sign-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
 ### Bugs
 
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+Should any bugs or feature requests come up please report them in [https://github.com/jayzawrotny/clj-sign/issues] repo.
 
 ## License
 
-Copyright © 2018 FIXME
+Copyright © 2018 Jay
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the BSD 3-Clause "New" or "Revised" License.
